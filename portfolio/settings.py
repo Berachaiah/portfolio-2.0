@@ -85,3 +85,18 @@ LOGIN_URL = '/admin-panel/login/'
 
 # Groq API Key — set via env var or replace string for local dev
 GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
+
+# Production overrides
+import os
+if os.environ.get('DATABASE_URL'):
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.parse(os.environ['DATABASE_URL'], conn_max_age=600)
+
+if os.environ.get('SECRET_KEY'):
+    SECRET_KEY = os.environ['SECRET_KEY']
+
+if os.environ.get('DEBUG') == 'False':
+    DEBUG = False
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
