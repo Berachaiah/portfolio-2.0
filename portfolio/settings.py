@@ -84,4 +84,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/admin-panel/login/'
 
 # Groq API Key — set via env var or replace string for local dev
-GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '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')
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')

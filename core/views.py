@@ -302,7 +302,7 @@ def ai_chat(request):
     except Exception:
         return JsonResponse({'reply': 'Invalid request.'}, status=400)
 
-    groq_key = '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'
+    groq_key = os.environ.get('GROQ_API_KEY', '')
     print(f"DEBUG key: {repr(groq_key[:20])}")
     print(f"DEBUG message: {repr(message)}")
     if not groq_key:
