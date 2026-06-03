@@ -1,0 +1,28 @@
+{% extends "admin_dash/base.html" %}
+{% block title %}Projects{% endblock %}{% block page_title %}Projects{% endblock %}{% block breadcrumb %}Projects{% endblock %}
+{% block content %}
+<div class="page-hdr">
+  <div><div class="page-hdr__title">All Projects</div><div class="page-hdr__sub">{{ projects|length }} project{{ projects|length|pluralize }}</div></div>
+  <a href="{% url 'admin_project_new' %}" class="btn btn-primary">+ Add Project</a>
+</div>
+<div class="card card--flat">
+  {% if projects %}
+  <table class="table">
+    <thead><tr><th>Image</th><th>Title</th><th>Status</th><th>Featured</th><th>Order</th><th>Actions</th></tr></thead>
+    <tbody>{% for p in projects %}
+    <tr>
+      <td>{% if p.image %}<img src="{{ p.image.url }}" class="img-thumb"/>{% else %}<div style="width:48px;height:36px;background:var(--surface3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.8rem">🚀</div>{% endif %}</td>
+      <td>{{ p.title|truncatechars:45 }}</td>
+      <td><span class="badge badge--{% if p.status == 'live' %}green{% elif p.status == 'hackathon' %}gold{% elif p.status == 'audit' %}red{% else %}blue{% endif %}">{{ p.get_status_display }}</span></td>
+      <td>{% if p.is_featured %}<span class="badge badge--gold">⭐ Featured</span>{% else %}—{% endif %}</td>
+      <td>{{ p.order }}</td>
+      <td style="display:flex;gap:6px;align-items:center">
+        <a href="{% url 'admin_project_edit' p.pk %}" class="btn btn-ghost">Edit</a>
+        <a href="{% url 'admin_project_delete' p.pk %}" class="btn btn-danger" onclick="return confirm('Delete this project?')">Delete</a>
+      </td>
+    </tr>{% endfor %}
+    </tbody>
+  </table>
+  {% else %}<div class="empty-state"><div class="empty-state__icon">🚀</div>No projects yet. <a href="{% url 'admin_project_new' %}" style="color:var(--accent)">Add your first project →</a></div>{% endif %}
+</div>
+{% endblock %}

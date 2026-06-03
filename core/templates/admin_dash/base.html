@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — {% block title %}Dashboard{% endblock %}</title>
+<link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#080b12;--surface:#0e1420;--surface2:#131926;--surface3:#1a2235;--border:rgba(255,255,255,.08);--text:#f0f4ff;--muted:rgba(240,244,255,.5);--accent:#6c63ff;--green:#10b981;--red:#ef4444;--gold:#f59e0b;--r:10px;--font:'Inter',system-ui,sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
+/* SIDEBAR */
+.sidebar{width:240px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar__brand{padding:1.5rem 1.25rem 1rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.sidebar__brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.sidebar__brand-text{font-weight:800;font-size:.95rem;letter-spacing:-.02em;}
+.sidebar__brand-sub{font-size:.68rem;color:var(--muted);}
+.sidebar__nav{flex:1;padding:1rem 0;overflow-y:auto;}
+.nav-section{padding:.25rem 1rem .1rem;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,244,255,.25);margin-top:.5rem;}
+.nav-link{display:flex;align-items:center;gap:10px;padding:.6rem 1.25rem;font-size:.84rem;font-weight:500;color:var(--muted);text-decoration:none;border-radius:0;transition:all .15s;position:relative;}
+.nav-link:hover{color:var(--text);background:rgba(255,255,255,.04);}
+.nav-link.active{color:var(--text);background:rgba(108,99,255,.15);}
+.nav-link.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);border-radius:0 2px 2px 0;}
+.nav-link__icon{font-size:1rem;width:20px;text-align:center;}
+.nav-link__badge{margin-left:auto;background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;padding:1px 7px;border-radius:100px;}
+.nav-link__badge--red{background:var(--red);}
+.sidebar__footer{padding:1rem 1.25rem;border-top:1px solid var(--border);}
+.sidebar__user{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:.75rem;}
+.sidebar__user-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.logout-btn{display:block;text-align:center;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.25);color:#fca5a5;border-radius:var(--r);padding:7px;font-size:.78rem;font-weight:600;text-decoration:none;transition:background .2s;}
+.logout-btn:hover{background:rgba(239,68,68,.25);}
+/* MAIN */
+.main{margin-left:240px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{height:58px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;flex-shrink:0;}
+.topbar__title{font-size:.95rem;font-weight:700;color:var(--text);}
+.topbar__path{font-size:.75rem;color:var(--muted);}
+.content{flex:1;padding:2rem;overflow-y:auto;}
+/* COMPONENTS */
+.card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;}
+.card--flat{padding:0;overflow:hidden;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;display:flex;align-items:center;gap:1rem;}
+.stat-card__icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.stat-card__num{font-size:1.9rem;font-weight:900;letter-spacing:-.04em;line-height:1;}
+.stat-card__lbl{font-size:.75rem;color:var(--muted);margin-top:2px;}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;border:none;text-decoration:none;font-family:var(--font);transition:all .2s;letter-spacing:.01em;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:#5b52e8;}
+.btn-danger{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.2);color:#fca5a5;}
+.btn-danger:hover{background:rgba(239,68,68,.25);}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);}
+.btn-ghost:hover{background:rgba(255,255,255,.09);color:var(--text);}
+.form-group{margin-bottom:1rem;}
+.form-label{display:block;font-size:.73rem;font-weight:600;color:var(--muted);margin-bottom:5px;letter-spacing:.04em;}
+.form-input{width:100%;background:var(--surface);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:9px 13px;font-size:.88rem;color:var(--text);font-family:var(--font);outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:rgba(108,99,255,.5);}
+.form-input::placeholder{color:rgba(240,244,255,.25);}
+.form-input option{background:var(--surface);}
+textarea.form-input{resize:vertical;min-height:100px;}
+.table{width:100%;border-collapse:collapse;}
+.table th{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+.table td{font-size:.84rem;padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);color:var(--muted);}
+.table td:first-child{color:var(--text);font-weight:500;}
+.table tr:hover td{background:rgba(255,255,255,.02);}
+.badge{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 9px;border-radius:100px;letter-spacing:.06em;}
+.badge--green{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.2);}
+.badge--blue{background:rgba(108,99,255,.15);color:#a5b4fc;border:1px solid rgba(108,99,255,.2);}
+.badge--gold{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.2);}
+.badge--red{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.2);}
+.alert{padding:.85rem 1.1rem;border-radius:var(--r);font-size:.84rem;margin-bottom:1.25rem;}
+.alert--success{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);color:#6ee7b7;}
+.alert--error{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5;}
+.page-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;}
+.page-hdr__title{font-size:1.15rem;font-weight:800;letter-spacing:-.025em;}
+.page-hdr__sub{font-size:.8rem;color:var(--muted);margin-top:2px;}
+.divider{height:1px;background:var(--border);margin:1.5rem 0;}
+.check-row{display:flex;align-items:center;gap:8px;font-size:.84rem;}
+input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;}
+.img-thumb{width:48px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--border);}
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:.9rem;}
+.empty-state__icon{font-size:2.5rem;margin-bottom:.75rem;}
+@media(max-width:800px){.sidebar{display:none;}.main{margin-left:0;}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar__brand">
+    <span class="sidebar__brand-dot"></span>
+    <div><div class="sidebar__brand-text">Portfolio</div><div class="sidebar__brand-sub">Admin Panel</div></div>
+  </div>
+  <nav class="sidebar__nav">
+    <div class="nav-section">Overview</div>
+    <a href="{% url 'admin_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"><span class="nav-link__icon">📊</span>Dashboard</a>
+    <div class="nav-section">Content</div>
+    <a href="{% url 'admin_settings' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_settings' %}active{% endif %}"><span class="nav-link__icon">⚙️</span>Site Settings</a>
+    <a href="{% url 'admin_hero_images' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_hero_images' %}active{% endif %}"><span class="nav-link__icon">🖼️</span>Hero Images</a>
+    <a href="{% url 'admin_projects' %}" class="nav-link {% if 'project' in request.resolver_match.url_name %}active{% endif %}"><span class="nav-link__icon">🚀</span>Projects</a>
+    <a href="{% url 'admin_research' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_research' %}active{% endif %}"><span class="nav-link__icon">🔬</span>Research</a>
+    <a href="{% url 'admin_certificates' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_certificates' %}active{% endif %}"><span class="nav-link__icon">📜</span>Certificates</a>
+    <a href="{% url 'admin_stacks' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_stacks' %}active{% endif %}"><span class="nav-link__icon">🛠️</span>Tech Stack</a>
+    <div class="nav-section">Inbox</div>
+    <a href="{% url 'admin_messages' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_messages' %}active{% endif %}"><span class="nav-link__icon">✉️</span>Messages{% if unread_count %}<span class="nav-link__badge nav-link__badge--red">{{ unread_count }}</span>{% endif %}</a>
+    <div class="nav-section">Site</div>
+    <a href="/" target="_blank" class="nav-link"><span class="nav-link__icon">👁️</span>View Portfolio</a>
+  </nav>
+  <div class="sidebar__footer">
+    <div class="sidebar__user"><span class="sidebar__user-dot"></span>{{ request.user.username }}</div>
+    <a href="{% url 'admin_logout' %}" class="logout-btn">Sign Out</a>
+  </div>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <div><div class="topbar__title">{% block page_title %}Dashboard{% endblock %}</div><div class="topbar__path">Admin &rsaquo; {% block breadcrumb %}Overview{% endblock %}</div></div>
+    <a href="/" target="_blank" class="btn btn-ghost" style="font-size:.75rem">↗ View Site</a>
+  </div>
+  <div class="content">
+    {% if messages %}{% for m in messages %}<div class="alert alert--{% if m.tags == 'error' %}error{% else %}success{% endif %}">{{ m }}</div>{% endfor %}{% endif %}
+    {% block content %}{% endblock %}
+  </div>
+</div>
+</body>
+</html>

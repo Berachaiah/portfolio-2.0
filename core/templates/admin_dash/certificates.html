@@ -1,0 +1,36 @@
+{% extends "admin_dash/base.html" %}
+{% block title %}Certificates{% endblock %}{% block page_title %}Certificates{% endblock %}{% block breadcrumb %}Certificates{% endblock %}
+{% block content %}
+<div class="grid-2">
+  <div class="card">
+    <div style="font-weight:700;font-size:.9rem;margin-bottom:1.25rem">Add Certificate</div>
+    <form method="post">{% csrf_token %}
+      <div class="form-group"><label class="form-label">Certificate Name *</label><input class="form-input" type="text" name="name" placeholder="Diploma in AI Fundamentals" required/></div>
+      <div class="form-group"><label class="form-label">Issuer *</label><input class="form-input" type="text" name="issuer" placeholder="Alison / NIIT / Coursera"/></div>
+      <div class="form-group"><label class="form-label">Date</label><input class="form-input" type="text" name="date" placeholder="Oct 2025"/></div>
+      <div class="form-group"><label class="form-label">Display Order</label><input class="form-input" type="number" name="order" value="0" min="0"/></div>
+      <button type="submit" class="btn btn-primary">Add Certificate</button>
+    </form>
+  </div>
+  <div class="card card--flat">
+    <div style="padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);font-weight:700;font-size:.9rem">All Certificates ({{ certs|length }})</div>
+    {% if certs %}
+    <table class="table">
+      <thead><tr><th>#</th><th>Name</th><th>Issuer</th><th>Date</th><th>Actions</th></tr></thead>
+      <tbody>{% for c in certs %}
+      <tr>
+        <td style="color:var(--muted2)">{{ c.order }}</td>
+        <td style="font-weight:500">{{ c.name|truncatechars:38 }}</td>
+        <td>{{ c.issuer }}</td>
+        <td><span style="font-family:monospace;font-size:.75rem;color:var(--muted)">{{ c.date }}</span></td>
+        <td style="display:flex;gap:6px">
+          <a href="{% url 'admin_cert_edit' c.pk %}" class="btn btn-ghost">Edit</a>
+          <a href="{% url 'admin_cert_delete' c.pk %}" class="btn btn-danger" onclick="return confirm('Delete?')">Delete</a>
+        </td>
+      </tr>{% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty-state"><div class="empty-state__icon">📜</div>No certificates yet.</div>{% endif %}
+  </div>
+</div>
+{% endblock %}

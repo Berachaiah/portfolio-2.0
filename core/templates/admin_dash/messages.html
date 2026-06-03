@@ -1,0 +1,23 @@
+{% extends "admin_dash/base.html" %}
+{% block title %}Messages{% endblock %}{% block page_title %}Messages{% endblock %}{% block breadcrumb %}Inbox{% endblock %}
+{% block content %}
+<div class="page-hdr">
+  <div><div class="page-hdr__title">Contact Messages</div><div class="page-hdr__sub">{{ messages|length }} total message{{ messages|length|pluralize }}</div></div>
+</div>
+<div class="card card--flat">
+  {% if messages %}
+  <table class="table">
+    <thead><tr><th>Name</th><th>Email</th><th>Type</th><th>Message</th><th>Date</th></tr></thead>
+    <tbody>{% for m in messages %}
+    <tr>
+      <td>{{ m.name }}</td>
+      <td style="font-family:monospace;font-size:.78rem">{{ m.email }}</td>
+      <td>{% if m.engagement_type %}<span class="badge badge--blue">{{ m.engagement_type }}</span>{% else %}—{% endif %}</td>
+      <td style="max-width:300px;font-size:.82rem;color:var(--muted)">{{ m.message|truncatechars:80 }}</td>
+      <td style="font-size:.76rem;white-space:nowrap;color:var(--muted)">{{ m.created_at|date:"d M Y, H:i" }}</td>
+    </tr>{% endfor %}
+    </tbody>
+  </table>
+  {% else %}<div class="empty-state"><div class="empty-state__icon">✉️</div>No messages yet. They'll appear here when visitors contact you.</div>{% endif %}
+</div>
+{% endblock %}

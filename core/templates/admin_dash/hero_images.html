@@ -1,0 +1,32 @@
+{% extends "admin_dash/base.html" %}
+{% block title %}Hero Images{% endblock %}{% block page_title %}Hero Images{% endblock %}{% block breadcrumb %}Hero Images{% endblock %}
+{% block content %}
+<div class="grid-2">
+  <div class="card">
+    <div style="font-weight:700;font-size:.9rem;margin-bottom:1.25rem">Upload New Image</div>
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+      <div class="form-group"><label class="form-label">Image File</label><input class="form-input" type="file" name="image" accept="image/*" required/></div>
+      <div class="form-group"><label class="form-label">Caption (optional)</label><input class="form-input" type="text" name="caption" placeholder="e.g. Working on NeuroChain platform"/></div>
+      <div class="form-group"><label class="form-label">Order</label><input class="form-input" type="number" name="order" value="0" min="0"/></div>
+      <button type="submit" class="btn btn-primary">Upload Image</button>
+    </form>
+  </div>
+  <div class="card card--flat">
+    <div style="padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);font-weight:700;font-size:.9rem">Current Hero Images</div>
+    {% if images %}
+    <table class="table">
+      <thead><tr><th>Preview</th><th>Caption</th><th>Order</th><th>Status</th><th></th></tr></thead>
+      <tbody>{% for img in images %}
+      <tr>
+        <td><img src="{{ img.image.url }}" class="img-thumb" alt="{{ img.caption }}"/></td>
+        <td>{{ img.caption|default:"—" }}</td>
+        <td>{{ img.order }}</td>
+        <td><span class="badge {% if img.is_active %}badge--green{% else %}badge--red{% endif %}">{% if img.is_active %}Active{% else %}Hidden{% endif %}</span></td>
+        <td><a href="{% url 'admin_hero_image_delete' img.pk %}" class="btn btn-danger" onclick="return confirm('Delete this image?')">Delete</a></td>
+      </tr>{% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty-state"><div class="empty-state__icon">🖼️</div>No hero images yet. Upload your first one.</div>{% endif %}
+  </div>
+</div>
+{% endblock %}

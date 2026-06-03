@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Berachaiah Abolaji — Full-Stack AI & Web3 Engineer</title>
+<meta name="description" content="Full-Stack Developer · AI/ML Engineer · Web3 Builder · Security Researcher"/>
+<link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png"/>
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080b12;
+  --surface:#0e1420;
+  --surface2:#131926;
+  --surface3:#1a2235;
+  --border:rgba(255,255,255,.07);
+  --border2:rgba(255,255,255,.12);
+  --text:#f0f4ff;
+  --muted:rgba(240,244,255,.5);
+  --muted2:rgba(240,244,255,.28);
+  --accent:#6c63ff;
+  --accent2:#818cf8;
+  --accent-glow:rgba(108,99,255,.35);
+  --green:#10b981;
+  --green-bg:rgba(16,185,129,.12);
+  --r:12px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --font:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;}
+::selection{background:var(--accent);color:#fff;}
+img{display:block;max-width:100%;}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:800;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;transition:background .4s,border-color .4s;}
+.nav.scrolled{background:rgba(8,11,18,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav__brand{font-weight:800;font-size:1.05rem;color:var(--text);text-decoration:none;letter-spacing:-.025em;display:flex;align-items:center;gap:9px;}
+.nav__brand-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.nav__links{display:flex;gap:2.2rem;list-style:none;}
+.nav__links a{font-size:.82rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:.01em;transition:color .2s;}
+.nav__links a:hover{color:var(--text);}
+.nav__cta{background:var(--accent);color:#fff;font-size:.78rem;font-weight:700;padding:8px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em;transition:all .2s;box-shadow:0 0 0 0 var(--accent-glow);}
+.nav__cta:hover{background:#5b52e8;transform:translateY(-1px);box-shadow:0 0 24px var(--accent-glow);}
+
+/* ── HERO ── */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding-top:64px;}
+.hero__bg{position:absolute;inset:0;pointer-events:none;}
+.hero__orb1{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,.18) 0%,transparent 70%);top:-100px;right:-100px;animation:orb1 8s ease-in-out infinite alternate;}
+.hero__orb2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(16,185,129,.12) 0%,transparent 70%);bottom:0;left:-80px;animation:orb2 10s ease-in-out infinite alternate;}
+.hero__grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 0%,transparent 70%);}
+@keyframes orb1{from{transform:translate(0,0) scale(1)}to{transform:translate(-40px,40px) scale(1.1)}}
+@keyframes orb2{from{transform:translate(0,0) scale(1)}to{transform:translate(30px,-30px) scale(1.05)}}
+
+.hero__inner{position:relative;z-index:1;width:100%;max-width:1160px;margin:0 auto;padding:0 3rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.hero__kicker{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);border-radius:100px;padding:5px 14px;font-size:.72rem;font-weight:700;color:var(--accent2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem;}
+.hero__kicker-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;}
+h1.hero__h1{font-size:clamp(2.6rem,4.5vw,3.8rem);font-weight:900;letter-spacing:-.045em;line-height:1.03;color:var(--text);margin-bottom:.75rem;}
+h1.hero__h1 .grad{background:linear-gradient(135deg,#a78bfa,#6c63ff,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero__tagline{font-size:1.05rem;font-weight:600;color:var(--accent2);letter-spacing:-.01em;margin-bottom:1.25rem;line-height:1.5;}
+.hero__sub{font-size:.975rem;color:var(--muted);line-height:1.85;max-width:500px;margin-bottom:2rem;}
+.hero__pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem;}
+.hero__pill{font-size:.7rem;font-weight:600;padding:4px 12px;border-radius:100px;border:1px solid var(--border2);color:var(--muted);background:var(--surface2);letter-spacing:.04em;}
+.hero__pill--accent{border-color:rgba(108,99,255,.4);color:var(--accent2);background:rgba(108,99,255,.1);}
+.hero__btns{display:flex;gap:.875rem;flex-wrap:wrap;}
+.btn-glow{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;font-size:.84rem;font-weight:700;padding:12px 24px;border-radius:9px;text-decoration:none;transition:all .25s var(--ease);box-shadow:0 0 0 0 var(--accent-glow);}
+.btn-glow:hover{background:#5b52e8;transform:translateY(-2px);box-shadow:0 8px 32px var(--accent-glow);}
+.btn-glass{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);color:var(--text);font-size:.84rem;font-weight:600;padding:12px 24px;border-radius:9px;text-decoration:none;border:1px solid var(--border2);transition:all .25s var(--ease);backdrop-filter:blur(8px);}
+.btn-glass:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2);}
+
+/* HERO CAROUSEL */
+.hero__visual{position:relative;}
+.carousel{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 32px 80px rgba(0,0,0,.5),0 0 0 1px var(--border);}
+.carousel__slides{display:flex;height:100%;transition:transform .8s var(--ease);}
+.carousel__slide{min-width:100%;height:100%;position:relative;flex-shrink:0;}
+.carousel__slide img{width:100%;height:100%;object-fit:cover;}
+.carousel__slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,11,18,.7) 0%,transparent 50%);}
+.carousel__caption{position:absolute;bottom:1.25rem;left:1.25rem;right:1.25rem;z-index:1;font-size:.78rem;color:rgba(255,255,255,.7);font-weight:500;}
+.carousel__nav{position:absolute;bottom:1.25rem;right:1.25rem;z-index:2;display:flex;gap:6px;}
+.carousel__dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;padding:0;transition:all .3s;}
+.carousel__dot.active{background:#fff;width:18px;border-radius:3px;}
+.carousel__arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(8,11,18,.6);border:1px solid var(--border2);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;backdrop-filter:blur(8px);}
+.carousel__arrow:hover{background:rgba(108,99,255,.4);}
+.carousel__arrow--prev{left:12px;}
+.carousel__arrow--next{right:12px;}
+
+/* PORTRAIT BADGE */
+.portrait-badge{position:absolute;top:-14px;right:-14px;background:var(--surface2);border:1px solid var(--border2);border-radius:14px;padding:10px 14px;box-shadow:0 8px 32px rgba(0,0,0,.4);display:flex;align-items:center;gap:10px;backdrop-filter:blur(12px);}
+.portrait-img{width:40px;height:40px;border-radius:10px;object-fit:cover;background:var(--surface3);}
+.portrait-info strong{display:block;font-size:.8rem;font-weight:700;}
+.portrait-info span{font-size:.68rem;color:var(--muted);font-family:var(--mono);}
+.avail-badge{position:absolute;bottom:-12px;left:-12px;background:var(--green-bg);border:1px solid rgba(16,185,129,.3);border-radius:100px;padding:6px 14px;font-size:.72rem;font-weight:700;color:var(--green);display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px);}
+.avail-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;}
+
+/* STATS BAND */
+.stats-band{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2.5rem 0;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.stat{text-align:center;padding:1rem;}
+.stat__num{font-size:2.4rem;font-weight:900;letter-spacing:-.04em;background:linear-gradient(135deg,#a78bfa,#6c63ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.stat__lbl{font-size:.78rem;color:var(--muted);margin-top:.4rem;font-weight:500;}
+
+/* SECTION UTILS */
+.section{padding:7rem 0;}
+.section--alt{background:var(--surface);}
+.wrap{max-width:1160px;margin:0 auto;padding:0 3rem;width:100%;}
+.sec-kicker{display:inline-flex;align-items:center;gap:8px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);background:rgba(108,99,255,.12);padding:4px 12px;border-radius:100px;border:1px solid rgba(108,99,255,.25);margin-bottom:1.1rem;}
+.sec-h2{font-size:clamp(1.9rem,3.2vw,2.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;color:var(--text);margin-bottom:.9rem;}
+.sec-sub{font-size:.95rem;color:var(--muted);line-height:1.8;max-width:560px;}
+
+/* ABOUT */
+.about__grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.about__portrait-wrap{position:relative;}
+.about__portrait-outer{border-radius:20px;overflow:hidden;aspect-ratio:3/4;background:var(--surface2);border:1px solid var(--border2);box-shadow:0 24px 64px rgba(0,0,0,.4);}
+.about__portrait-img{width:100%;height:100%;object-fit:cover;}
+.about__portrait-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--muted2);}
+.about__portrait-placeholder svg{opacity:.3;}
+.about__portrait-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--muted2);}
+.about__portrait-glow{position:absolute;inset:0;border-radius:20px;box-shadow:inset 0 0 60px rgba(108,99,255,.07);pointer-events:none;}
+.about__body p{font-size:.97rem;color:var(--muted);line-height:1.85;margin-bottom:1.25rem;}
+.about__body p strong{color:var(--text);font-weight:700;}
+.about__chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:1.5rem;}
+.chip{font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:100px;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.25);color:var(--accent2);}
+
+/* EXPERTISE */
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem;}
+.exp-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;transition:all .3s var(--ease);}
+.exp-card:hover{background:var(--surface3);border-color:rgba(108,99,255,.3);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.3);}
+.exp-card__icon{font-size:1.75rem;margin-bottom:.9rem;}
+.exp-card__title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.5rem;}
+.exp-card__desc{font-size:.84rem;color:var(--muted);line-height:1.7;}
+
+/* PROJECTS */
+.projects__grid{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;margin-top:3rem;}
+.proj-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .4s var(--ease);}
+.proj-card:hover{border-color:rgba(108,99,255,.5);transform:translateY(-6px);box-shadow:0 32px 64px rgba(0,0,0,.5),0 0 0 1px rgba(108,99,255,.15);}
+.proj-card--featured{grid-column:1/-1;}
+.proj-img{position:relative;overflow:hidden;}
+.proj-img img{width:100%;object-fit:cover;object-position:top;transition:transform .6s var(--ease),filter .4s;filter:brightness(.82) saturate(.85);}
+.proj-card:hover .proj-img img{transform:scale(1.05);filter:brightness(.95) saturate(1.05);}
+.proj-img::before{content:'';position:absolute;inset:0;background:rgba(8,11,18,.5);z-index:1;pointer-events:none;transition:opacity .4s;}
+.proj-card:hover .proj-img::before{opacity:.2;}
+.proj-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--surface2) 0%,rgba(8,11,18,.7) 45%,transparent 75%);z-index:2;pointer-events:none;}
+.proj-img--regular{height:220px;}
+.proj-img--featured{height:320px;}
+.proj-img--placeholder{display:flex;align-items:center;justify-content:center;background:var(--surface3);font-size:2.5rem;}
+.proj-body{padding:1.5rem;}
+.proj-tag{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent2);background:rgba(108,99,255,.12);padding:3px 10px;border-radius:100px;border:1px solid rgba(108,99,255,.25);margin-bottom:.75rem;}
+.proj-tag--green{color:var(--green);background:var(--green-bg);border-color:rgba(16,185,129,.25);}
+.proj-tag--gold{color:#fbbf24;background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.25);}
+.proj-tag--red{color:#f87171;background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.25);}
+.proj__title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;color:var(--text);margin-bottom:.4rem;}
+.proj__sub{font-size:.78rem;color:var(--muted2);font-family:var(--mono);margin-bottom:.75rem;}
+.proj__desc{font-size:.875rem;color:var(--muted);line-height:1.72;}
+.proj__tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:1rem;}
+.ptag{font-size:.68rem;font-weight:500;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border);}
+.ptag--a{background:rgba(108,99,255,.1);color:var(--accent2);border-color:rgba(108,99,255,.2);}
+
+/* RESEARCH */
+.research__grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:3rem;}
+.research__img{border-radius:20px;overflow:hidden;position:sticky;top:80px;box-shadow:0 24px 64px rgba(0,0,0,.4);border:1px solid var(--border);}
+.research__img img{width:100%;height:460px;object-fit:cover;}
+.rl-item{display:flex;gap:1.25rem;padding:1.5rem 0;border-bottom:1px solid var(--border);}
+.rl-item:last-child{border-bottom:none;}
+.rl-num{width:34px;height:34px;border-radius:9px;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.25);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:var(--accent2);flex-shrink:0;margin-top:2px;}
+.rl-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.4rem;}
+.rl-desc{font-size:.855rem;color:var(--muted);line-height:1.7;}
+
+/* STACK */
+.stack__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:3rem;}
+.sk-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;}
+.sk-card--wide{grid-column:span 2;}
+.sk-card__title{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.85rem;display:flex;align-items:center;gap:8px;}
+.sk-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);}
+.sk-items{display:flex;flex-wrap:wrap;gap:6px;}
+.si{font-size:.72rem;font-weight:500;padding:3px 11px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);}
+
+/* CERTS */
+.certs__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:3rem;}
+.cert-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.4rem;display:flex;align-items:flex-start;gap:12px;transition:border-color .2s,transform .2s var(--ease);}
+.cert-card:hover{border-color:rgba(108,99,255,.35);transform:translateX(3px);}
+.cert-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:5px;}
+.cert__nm{font-size:.875rem;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:3px;}
+.cert__meta{font-size:.7rem;color:var(--muted);font-family:var(--mono);}
+
+/* DIFF */
+.diff__img-wrap{border-radius:20px;overflow:hidden;margin-bottom:3rem;border:1px solid var(--border);box-shadow:0 24px 64px rgba(0,0,0,.4);}
+.diff__img-wrap img{width:100%;height:300px;object-fit:cover;}
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.diff-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:all .3s var(--ease);}
+.diff-card:hover{transform:translateY(-3px);border-color:rgba(108,99,255,.3);box-shadow:0 12px 40px rgba(0,0,0,.3);}
+.diff-card__icon{font-size:1.5rem;margin-bottom:.7rem;}
+.diff-card__title{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.4rem;}
+.diff-card__desc{font-size:.83rem;color:var(--muted);line-height:1.65;}
+
+/* CONTACT */
+#contact{padding:7rem 0;background:var(--surface);border-top:1px solid var(--border);}
+.contact__grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:3rem;}
+.cc{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);text-decoration:none;color:var(--text);margin-bottom:.75rem;transition:all .25s var(--ease);}
+.cc:hover{border-color:rgba(108,99,255,.35);transform:translateX(5px);}
+.cc__icon{width:40px;height:40px;border-radius:9px;background:rgba(108,99,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.cc__lbl{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:2px;}
+.cc__val{font-size:.88rem;font-weight:500;}
+.form-stag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:1.5rem;}
+.fg{margin-bottom:1rem;}
+.flbl{display:block;font-size:.73rem;font-weight:600;color:var(--muted);margin-bottom:5px;letter-spacing:.03em;}
+.ff{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;font-size:.9rem;color:var(--text);font-family:var(--font);outline:none;transition:border-color .2s;resize:none;}
+.ff:focus{border-color:rgba(108,99,255,.5);}
+.ff::placeholder{color:var(--muted2);}
+.ff option{background:var(--surface);}
+.form-ok{display:none;background:var(--green-bg);border:1px solid rgba(16,185,129,.25);border-radius:8px;padding:1rem 1.25rem;color:var(--green);font-size:.875rem;margin-bottom:1rem;}
+.form-ok.show{display:block;}
+.submit-btn{width:100%;background:var(--accent);color:#fff;font-size:.875rem;font-weight:700;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;font-family:var(--font);transition:all .2s var(--ease);letter-spacing:.02em;}
+.submit-btn:hover{background:#5b52e8;box-shadow:0 8px 28px var(--accent-glow);}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+footer p{font-size:.78rem;color:var(--muted2);}
+footer a{font-size:.78rem;color:var(--muted2);text-decoration:none;transition:color .2s;}
+footer a:hover{color:var(--text);}
+.footer__links{display:flex;gap:1.5rem;}
+
+/* REVEAL & ANIMATION SYSTEM */
+.reveal{opacity:0;transform:translateY(48px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.reveal-l{opacity:0;transform:translateX(-56px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.reveal-l.in{opacity:1;transform:translateX(0);}
+.reveal-r{opacity:0;transform:translateX(56px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.reveal-r.in{opacity:1;transform:translateX(0);}
+.reveal-scale{opacity:0;transform:scale(.88) translateY(20px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.reveal-scale.in{opacity:1;transform:scale(1) translateY(0);}
+.reveal-blur{opacity:0;filter:blur(8px);transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1),filter .8s cubic-bezier(.16,1,.3,1);}
+.reveal-blur.in{opacity:1;filter:blur(0);transform:translateY(0);}
+/* Stagger delays */
+.d1{transition-delay:.1s!important;}
+.d2{transition-delay:.2s!important;}
+.d3{transition-delay:.3s!important;}
+.d4{transition-delay:.4s!important;}
+.d5{transition-delay:.5s!important;}
+.d6{transition-delay:.6s!important;}
+
+/* Smooth underline nav links */
+.nav__links a{position:relative;}
+.nav__links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent2);transition:width .3s var(--ease);}
+.nav__links a:hover::after{width:100%;}
+
+/* Card hover glow */
+.proj-card,.exp-card,.diff-card,.cert-card,.sk-card{will-change:transform;}
+
+/* Hover lift utility */
+.hover-lift{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s;}
+.hover-lift:hover{transform:translateY(-6px);box-shadow:0 28px 56px rgba(0,0,0,.45);}
+
+/* Section number accent */
+.sec-num{font-family:var(--mono);font-size:.68rem;color:var(--muted2);letter-spacing:.15em;margin-bottom:.5rem;display:block;}
+
+/* Smooth cursor glow that follows mouse */
+.cursor-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,.07) 0%,transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:left .12s ease,top .12s ease;will-change:left,top;}
+
+/* AI CHAT BUBBLE */
+.ai-bubble{position:fixed;bottom:2rem;right:2rem;z-index:700;}
+.ai-toggle{width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;padding:0;background:transparent;position:relative;}
+.ai-toggle-inner{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#38bdf8);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(108,99,255,.5);transition:transform .3s var(--ease),box-shadow .3s;overflow:hidden;}
+.ai-toggle:hover .ai-toggle-inner{transform:scale(1.1);box-shadow:0 12px 40px rgba(108,99,255,.7);}
+.ai-toggle-inner img{width:52px;height:52px;object-fit:contain;border-radius:50%;}
+.ai-ping{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--green);border:2px solid var(--bg);animation:ping 2s ease-in-out infinite;}
+@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
+.ai-panel{position:absolute;bottom:74px;right:0;width:360px;background:var(--surface);border:1px solid var(--border2);border-radius:20px;box-shadow:0 32px 80px rgba(0,0,0,.6);overflow:hidden;transform:scale(.9) translateY(12px);opacity:0;pointer-events:none;transition:all .35s var(--ease);transform-origin:bottom right;}
+.ai-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+.ai-panel-top{padding:.9rem 1.1rem;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.ai-panel-info{display:flex;align-items:center;gap:10px;}
+.ai-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#38bdf8);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.ai-avatar img{width:30px;height:30px;object-fit:contain;}
+.ai-name{font-size:.84rem;font-weight:700;color:var(--text);}
+.ai-status{font-size:.68rem;color:var(--green);display:flex;align-items:center;gap:4px;}
+.ai-status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);}
+.ai-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem;padding:4px;line-height:1;transition:color .2s;}
+.ai-close:hover{color:var(--text);}
+.ai-msgs{padding:1rem;height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;}
+.ai-msgs::-webkit-scrollbar{width:3px;}
+.ai-msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.ai-msg{display:flex;flex-direction:column;max-width:88%;}
+.ai-msg--bot{align-self:flex-start;}
+.ai-msg--user{align-self:flex-end;}
+.ai-msg-bub{padding:9px 13px;border-radius:14px;font-size:.84rem;line-height:1.6;}
+.ai-msg--bot .ai-msg-bub{background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:14px 14px 14px 4px;}
+.ai-msg--user .ai-msg-bub{background:var(--accent);color:#fff;border-radius:14px 14px 4px 14px;}
+.ai-typing{display:flex;gap:4px;padding:6px 4px;}
+.ai-typing span{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:tdot 1.2s ease-in-out infinite;}
+.ai-typing span:nth-child(2){animation-delay:.2s;}
+.ai-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.ai-pills{display:flex;flex-wrap:wrap;gap:5px;padding:0 1rem .5rem;}
+.ai-pill{font-size:.68rem;font-weight:600;padding:4px 10px;border-radius:100px;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.25);color:var(--accent2);cursor:pointer;transition:all .2s;}
+.ai-pill:hover{background:rgba(108,99,255,.2);}
+.ai-input-row{padding:.75rem 1rem;border-top:1px solid var(--border);display:flex;gap:8px;}
+.ai-input{flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;font-size:.84rem;color:var(--text);font-family:var(--font);outline:none;transition:border-color .2s;}
+.ai-input:focus{border-color:rgba(108,99,255,.5);}
+.ai-input::placeholder{color:var(--muted2);}
+.ai-send{background:var(--accent);border:none;border-radius:8px;color:#fff;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+.ai-send:hover{background:#5b52e8;}
+.ai-send:disabled{opacity:.4;cursor:not-allowed;}
+.ai-powered{padding:.5rem 1rem;text-align:center;font-size:.65rem;color:var(--muted2);border-top:1px solid var(--border);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .wrap,.nav{padding-left:1.5rem;padding-right:1.5rem;}
+  .nav__links{display:none;}
+  .hero__inner{grid-template-columns:1fr;padding:1.5rem;}
+  .hero__visual{display:none;}
+  h1.hero__h1{font-size:clamp(2.4rem,9vw,3.5rem);}
+  .stats-grid,.exp-grid,.projects__grid,.diff-grid,.certs__grid,.stack__grid,
+  .about__grid,.research__grid,.contact__grid{grid-template-columns:1fr;}
+  .proj-card--featured,.sk-card--wide{grid-column:1;}
+  .research__img{position:static;}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#hero" class="nav__brand"><span class="nav__brand-dot"></span>Berachaiah Abolaji</a>
+  <ul class="nav__links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav__cta">Hire Me Now</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero__bg">
+    <div class="hero__orb1"></div>
+    <div class="hero__orb2"></div>
+    <div class="hero__grid-lines"></div>
+  </div>
+  <div class="hero__inner">
+    <div>
+      <div class="hero__kicker">
+        <span class="hero__kicker-dot"></span>
+        {% if settings.availability_status %}{{ settings.availability_label }}{% else %}Currently Unavailable{% endif %}
+      </div>
+      <h1 class="hero__h1">{{ settings.hero_headline|default:"Building Intelligent Systems That <span class='grad'>Move the World Forward</span>"|safe }}</h1>
+      <p class="hero__tagline">Full-Stack Developer &nbsp;·&nbsp; AI/ML Engineer &nbsp;·&nbsp; Web3 Builder &nbsp;·&nbsp; Security Researcher</p>
+      <p class="hero__sub">I architect systems that don't just process data — they <strong style="color:var(--text)">think, adapt, and deliver</strong>. From clinical-grade ML models that catch disease before doctors can, to blockchain platforms securing 20+ EVM networks with AI-driven risk intelligence, to LLM agents with native cultural awareness — I build at the intersection of engineering rigour and real-world impact. Every line of code ships with a purpose.</p>
+      <div class="hero__pills">
+        <span class="hero__pill hero__pill--accent">Machine Learning</span>
+        <span class="hero__pill hero__pill--accent">Computer Vision</span>
+        <span class="hero__pill hero__pill--accent">NLP / LLM Agents</span>
+        <span class="hero__pill hero__pill--accent">Web3 / DeFi</span>
+        <span class="hero__pill">Django · Laravel · Flask</span>
+        <span class="hero__pill">Smart Contract Security</span>
+        <span class="hero__pill">Full-Stack Production</span>
+      </div>
+      <div class="hero__btns">
+        <a href="#contact" class="btn-glow">Hire Me Now ↗</a>
+        <a href="#projects" class="btn-glass">View Projects</a>
+        <a href="https://github.com/Berachaiah" target="_blank" rel="noopener" class="btn-glass">GitHub</a>
+      </div>
+    </div>
+    <div class="hero__visual">
+      <div style="position:relative;">
+        <div class="carousel" id="heroCarousel">
+          <div class="carousel__slides" id="carouselSlides">
+            {% if hero_images %}
+              {% for img in hero_images %}
+              <div class="carousel__slide">
+                <img src="{{ img.image.url }}" alt="{{ img.caption }}"/>
+                {% if img.caption %}<div class="carousel__caption">{{ img.caption }}</div>{% endif %}
+              </div>
+              {% endfor %}
+        {% else %}
+        <div class="carousel__slide">
+          <img src="/static/developer_at_work.png" alt="Developer at work"/>
+        </div>
+        <div class="carousel__slide">
+          <img src="/static/blockchain_network.png" alt="Blockchain network"/>
+        </div>
+        <div class="carousel__slide">
+          <img src="/static/ai_research.png" alt="AI research"/>
+        </div>
+        {% endif %}
+          </div>
+          <button class="carousel__arrow carousel__arrow--prev" id="carPrev">&#8592;</button>
+          <button class="carousel__arrow carousel__arrow--next" id="carNext">&#8594;</button>
+          <div class="carousel__nav" id="carDots"></div>
+        </div>
+        <div class="portrait-badge">
+          {% if settings.portrait %}
+            <img src="{{ settings.portrait.url }}" alt="Berachaiah Abolaji" class="portrait-img"/>
+          {% else %}
+            <div class="portrait-img" style="display:flex;align-items:center;justify-content:center;font-size:1.1rem;">👤</div>
+          {% endif %}
+          <div class="portrait-info">
+            <strong>Berachaiah Abolaji</strong>
+            <span>AI · Web3 · Full-Stack</span>
+          </div>
+        </div>
+        <div class="avail-badge">
+          <span class="avail-badge-dot"></span>
+          Open to Work
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat"><div class="stat__num">7</div><div class="stat__lbl">Projects Delivered</div></div>
+      <div class="stat"><div class="stat__num">20+</div><div class="stat__lbl">EVM Networks</div></div>
+      <div class="stat"><div class="stat__num">3+</div><div class="stat__lbl">Live Deployments</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="about__grid">
+      <div class="reveal-l">
+        <div class="about__portrait-wrap">
+          <div class="about__portrait-outer">
+            {% if settings.portrait %}
+              <img src="{{ settings.portrait.url }}" alt="Berachaiah Abolaji" class="about__portrait-img"/>
+            {% else %}
+              <div class="about__portrait-placeholder">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span class="about__portrait-label">Upload portrait in Admin Panel</span>
+              </div>
+            {% endif %}
+          </div>
+          <div class="about__portrait-glow"></div>
+        </div>
+      </div>
+      <div class="reveal-r">
+        <div class="sec-kicker">About Me</div>
+        <h2 class="sec-h2">Engineering Student.<br>AI Builder.<br>Problem Solver.</h2>
+        <div class="about__body">
+          {% if settings.about_text %}
+            <p>{{ settings.about_text }}</p>
+          {% else %}
+            <p>I'm <strong>Berachaiah Abolaji</strong> — a Full-Stack Developer, AI/ML Engineer, Web3 Builder, and Security Researcher. My work spans the full spectrum from low-level smart contract auditing on Soroban/Stellar to production-grade Django platforms handling real government and institutional data.</p>
+            <p>I don't build demos. I build systems: the <strong>NeuroChain</strong> platform analyses blockchain wallets across 20+ EVM networks in real-time; the <strong>SCN Staff LMS</strong> is live and deployed at the Supreme Court of Nigeria; <strong>The Honest Friend</strong> entered a ₦4M national hackathon with a behavioural AI agent built from scratch in days.</p>
+            <p>My passion is at the intersection of <strong>data, intelligence, and impact</strong> — finding the problems that matter and engineering solutions that actually work in the real world.</p>
+          {% endif %}
+        </div>
+        <div class="about__chips">
+          <span class="chip">Full-Stack Dev</span>
+          <span class="chip">AI / ML</span>
+          <span class="chip">Web3 / Blockchain</span>
+          <span class="chip">Smart Contract Security</span>
+          <span class="chip">NLP / LLM Agents</span>
+          <span class="chip">Computer Vision</span>
+          <span class="chip">Django · Laravel · Flask</span>
+          <span class="chip">Abuja · Works Globally</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section class="section section--alt">
+  <div class="wrap">
+    <div style="text-align:center">
+      <div class="sec-kicker">Core Expertise</div>
+      <h2 class="sec-h2">What I Bring to the Table</h2>
+      <p class="sec-sub" style="margin:0 auto">A multidisciplinary skill set spanning the full AI, data science, Web3, and full-stack engineering stack.</p>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-card reveal"><span class="exp-card__icon">🧠</span><div class="exp-card__title">Machine Learning & AI</div><div class="exp-card__desc">Classification, regression, CNNs, XGBoost, Random Forest, SVM. Clinical-grade models for disease prediction. End-to-end from data wrangling to production deployment.</div></div>
+      <div class="exp-card reveal" style="transition-delay:.06s"><span class="exp-card__icon">💬</span><div class="exp-card__title">NLP & LLM Agents</div><div class="exp-card__desc">Agentic pipelines with cultural intelligence — perceive, plan, use tools, reason, reflect. FAISS vector search, sentence-transformers, Groq/Llama 4, Nigerian cultural context.</div></div>
+      <div class="exp-card reveal" style="transition-delay:.12s"><span class="exp-card__icon">⛓️</span><div class="exp-card__title">Web3 & Blockchain</div><div class="exp-card__desc">EVM wallet analytics across 20+ networks via Alchemy. DeFi risk scoring, phishing detection, smart contract interaction, impermanent loss calculators, Paystack/ETH payments.</div></div>
+      <div class="exp-card reveal" style="transition-delay:.18s"><span class="exp-card__icon">🔐</span><div class="exp-card__title">Smart Contract Security</div><div class="exp-card__desc">Competitive audits on Code4rena. Confirmed Medium severity finding on K2 (DeFi lending on Soroban/Stellar). Flash loan mechanics, liquidation logic, oracle safety, swap collateral flows.</div></div>
+      <div class="exp-card reveal" style="transition-delay:.24s"><span class="exp-card__icon">🔧</span><div class="exp-card__title">Full-Stack Engineering</div><div class="exp-card__desc">Django 6, Laravel 12, Flask. Production deployments on cPanel, Railway, Docker. Real clients, real institutions, real traffic — not just academic projects.</div></div>
+      <div class="exp-card reveal" style="transition-delay:.3s"><span class="exp-card__icon">👁️</span><div class="exp-card__title">Computer Vision</div><div class="exp-card__desc">CNN-based medical image classification (Alzheimer's MRI). Agricultural disease detection from leaf images using OpenCV and deep learning.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section">
+  <div class="wrap">
+    <div class="sec-kicker">Selected Work</div>
+    <h2 class="sec-h2">Projects That Matter</h2>
+    <p class="sec-sub">Production systems, hackathon entries, and institutional platforms — shipped and used by real people.</p>
+    <div class="projects__grid">
+
+      {% for proj in projects %}
+        <div class="proj-card {% if proj.is_featured %}proj-card--featured{% endif %} reveal" style="transition-delay:{{ forloop.counter0|add:'0' }}0ms">
+          <div class="proj-img {% if proj.is_featured %}proj-img--featured{% else %}proj-img--regular{% endif %}">
+            {% if proj.image %}
+              <img src="{{ proj.image.url }}" alt="{{ proj.title }}"/>
+            {% else %}
+              <div class="proj-img--placeholder" style="height:{% if proj.is_featured %}300{% else %}200{% endif %}px">🖥️</div>
+            {% endif %}
+          </div>
+          <div class="proj-body">
+            <span class="proj-tag {% if proj.status == 'live' %}proj-tag--green{% elif proj.status == 'hackathon' %}proj-tag--gold{% elif proj.status == 'audit' %}proj-tag--red{% endif %}">{{ proj.get_status_display }}</span>
+            <div class="proj__title">{{ proj.title }}</div>
+            {% if proj.subtitle %}<div class="proj__sub">{{ proj.subtitle }}</div>{% endif %}
+            <div class="proj__desc">{{ proj.description }}</div>
+            {% if proj.stack_tags %}
+            <div class="proj__tags">
+              {% for tag in proj.stack_list %}
+                <span class="ptag {% if forloop.counter <= 3 %}ptag--a{% endif %}">{{ tag }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <!-- Default projects if DB empty -->
+        <div class="proj-card proj-card--featured reveal">
+          <div class="proj-img proj-img--featured"><img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&q=80" alt="NeuroChain"/></div>
+          <div class="proj-body">
+            <span class="proj-tag">Active Development</span>
+            <div class="proj__title">NeuroChain — AI-Powered Web3 Wallet Analytics Platform</div>
+            <div class="proj__sub">Django 6 · Alchemy API · FAISS · 20+ EVM Networks</div>
+            <div class="proj__desc">Comprehensive blockchain analytics across 20+ EVM networks. ML-powered risk scoring engine (0–100, 6-axis radar chart), live phishing detection (17,000+ domains + Google Safe Browsing API), transaction explainer, whale alert detection, cross-chain portfolio tracker, DeFi LP impermanent loss calculator. Full auth + Paystack/ETH crypto payments.</div>
+            <div class="proj__tags"><span class="ptag ptag--a">Django 6</span><span class="ptag ptag--a">Alchemy API</span><span class="ptag ptag--a">FAISS</span><span class="ptag">sentence-transformers</span><span class="ptag">Paystack API</span><span class="ptag">Canvas API</span><span class="ptag">20+ EVM Networks</span></div>
+          </div>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-img proj-img--regular"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80" alt="SCN LMS"/></div>
+          <div class="proj-body">
+            <span class="proj-tag proj-tag--green">Live</span>
+            <div class="proj__title">Supreme Court of Nigeria — Staff LMS</div>
+            <div class="proj__sub">Django 6 · Groq / Llama 4 · MySQL · cPanel</div>
+            <div class="proj__desc">Full LMS for Supreme Court staff — training calendar, AI course builder (Llama 4), e-learning wizard, onboarding assessments with AI-generated quizzes, RBAC, deployed on shared hosting.</div>
+            <div class="proj__tags"><span class="ptag ptag--a">Django 6</span><span class="ptag ptag--a">Groq / Llama 4</span><span class="ptag">MySQL</span><span class="ptag">RBAC</span><span class="ptag">cPanel</span></div>
+          </div>
+        </div>
+        <div class="proj-card reveal" style="transition-delay:.1s">
+          <div class="proj-img proj-img--regular"><img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80" alt="The Honest Friend"/></div>
+          <div class="proj-body">
+            <span class="proj-tag proj-tag--gold">Hackathon · ₦4M Prize Pool</span>
+            <div class="proj__title">The Honest Friend — LLM Behavioural AI Agent</div>
+            <div class="proj__sub">DSN × BCT Hackathon 3.0 · May 2026</div>
+            <div class="proj__desc">Agentic AI that builds a behavioural persona from review history and recommends experiences like a trusted Nigerian friend — honest, opinionated, culturally aware. Cross-domain across Yelp, Amazon, Goodreads. Hit Rate@10: 31× random baseline.</div>
+            <div class="proj__tags"><span class="ptag ptag--a">Llama Scout 4</span><span class="ptag ptag--a">FAISS</span><span class="ptag">Flask</span><span class="ptag">Nigerian cultural NLP</span><span class="ptag">sentence-transformers</span></div>
+          </div>
+        </div>
+        <div class="proj-card reveal" style="transition-delay:.15s">
+          <div class="proj-img proj-img--regular"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80" alt="Security Audit"/></div>
+          <div class="proj-body">
+            <span class="proj-tag proj-tag--red">Security Audit</span>
+            <div class="proj__title">Smart Contract Security Audit — K2 DeFi Protocol</div>
+            <div class="proj__sub">Code4rena · Soroban / Stellar · Rust</div>
+            <div class="proj__desc">Participated in competitive smart contract audits on Code4rena. Audited K2, a DeFi lending protocol on Stellar's Soroban platform — covering flash loan mechanics, liquidation logic, oracle safety, and swap collateral flows. Identified and submitted a confirmed <strong style="color:#f87171">Medium severity vulnerability</strong> involving systematic protocol fee undercollection in the swap collateral function.</div>
+            <div class="proj__tags"><span class="ptag ptag--a">Rust</span><span class="ptag ptag--a">Soroban</span><span class="ptag">Stellar</span><span class="ptag">DeFi / Lending</span><span class="ptag">Code4rena</span><span class="ptag">Manual Review</span></div>
+          </div>
+        </div>
+
+        <div class="proj-card reveal" style="transition-delay:.1s">
+          <div class="proj-img proj-img--regular"><img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&q=80" alt="School API"/></div>
+          <div class="proj-body">
+            <span class="proj-tag">Active Development</span>
+            <div class="proj__title">Laravel 12 School Management REST API</div>
+            <div class="proj__sub">Laravel 12 · PHP 8.2 · MySQL · REST</div>
+            <div class="proj__desc">Clean RESTful backend for a school management system. Student, tutor, and parent controllers with full CRUD, proper relational design, API auth. Designed to serve multiple frontends and mobile apps.</div>
+            <div class="proj__tags"><span class="ptag ptag--a">Laravel 12</span><span class="ptag ptag--a">PHP 8.2</span><span class="ptag">MySQL</span><span class="ptag">REST API</span></div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research" class="section section--alt">
+  <div class="wrap">
+    <div class="sec-kicker">Research & Academic Work</div>
+    <h2 class="sec-h2">Research That Pushes the Boundaries of Applied AI</h2>
+    <p class="sec-sub">Hypothesis-first, evidence-driven ML workflows grounded in scientific rigor and real-world applicability.</p>
+    <div class="research__grid">
+      <div class="research__img reveal-l">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Research environment"/>
+      </div>
+      <div>
+        {% for item in research %}
+        <div class="rl-item reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
+          <div class="rl-num">{{ item.number }}</div>
+          <div><div class="rl-title">{{ item.title }}</div><div class="rl-desc">{{ item.description }}</div></div>
+        </div>
+        {% empty %}
+        <div class="rl-item reveal">
+          <div class="rl-num">1</div>
+          <div><div class="rl-title">🧠 Early Alzheimer's Detection via MRI</div><div class="rl-desc">CNN-based classifier trained on MRI data to detect early-stage Alzheimer's with high accuracy. Bridges clinical decision support and machine learning innovation using Python, Scikit-Learn, and medical imaging datasets.</div></div>
+        </div>
+        <div class="rl-item reveal" style="transition-delay:.08s">
+          <div class="rl-num">2</div>
+          <div><div class="rl-title">🗳️ Nigerian Election Sentiment Analysis</div><div class="rl-desc">NLP pipeline analysing social media sentiment to model election trends using Python, NLTK, Twitter API, and ML classifiers — a novel application of political NLP to African democracies with real data-driven insight.</div></div>
+        </div>
+        <div class="rl-item reveal" style="transition-delay:.16s">
+          <div class="rl-num">3</div>
+          <div><div class="rl-title">🛒 Dataset Marketplace Platform</div><div class="rl-desc">A marketplace where curated datasets can be discovered, shared, and exchanged — advancing open data ecosystems for AI research communities. Built with Python, database engineering, and API design.</div></div>
+        </div>
+        <div class="rl-item reveal" style="transition-delay:.24s">
+          <div class="rl-num">4</div>
+          <div><div class="rl-title">🔐 DeFi Smart Contract Security Research</div><div class="rl-desc">Manual code review and vulnerability analysis of DeFi lending protocols on Soroban/Stellar. Confirmed Medium severity finding on K2 — systematic protocol fee undercollection in swap collateral mechanics.</div></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack" class="section">
+  <div class="wrap">
+    <div class="sec-kicker">Technical Skills</div>
+    <h2 class="sec-h2">The Tech Stack Behind the Solutions</h2>
+    <p class="sec-sub">Every tool I've used seriously — in production, research, or competitive environments.</p>
+    <div class="stack__grid">
+      {% for cat in stacks %}
+      <div class="sk-card {% if cat.is_wide %}sk-card--wide{% endif %} reveal" style="transition-delay:{{ forloop.counter0 }}0ms">
+        <div class="sk-card__title"><span class="sk-dot"></span>{{ cat.title }}</div>
+        <div class="sk-items">{% for item in cat.item_list %}<span class="si">{{ item }}</span>{% endfor %}</div>
+      </div>
+      {% empty %}
+      <div class="sk-card reveal"><div class="sk-card__title"><span class="sk-dot"></span>Languages</div><div class="sk-items"><span class="si">Python</span><span class="si">PHP 8.2</span><span class="si">JavaScript</span><span class="si">SQL</span><span class="si">R</span><span class="si">Rust (learning)</span><span class="si">HTML/CSS</span><span class="si">Bash</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.05s"><div class="sk-card__title"><span class="sk-dot"></span>Backend Frameworks</div><div class="sk-items"><span class="si">Django 6</span><span class="si">Laravel 12</span><span class="si">Flask</span><span class="si">REST API</span><span class="si">Passenger WSGI</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.1s"><div class="sk-card__title"><span class="sk-dot"></span>AI / ML</div><div class="sk-items"><span class="si">Scikit-Learn</span><span class="si">XGBoost</span><span class="si">CNN</span><span class="si">FAISS</span><span class="si">sentence-transformers</span><span class="si">HuggingFace</span><span class="si">Groq / Llama 4</span><span class="si">Pandas</span><span class="si">NumPy</span></div></div>
+      <div class="sk-card sk-card--wide reveal" style="transition-delay:.15s"><div class="sk-card__title"><span class="sk-dot"></span>Web3 / Blockchain</div><div class="sk-items"><span class="si">Alchemy API</span><span class="si">EVM (20+ networks)</span><span class="si">Ethereum / Sepolia</span><span class="si">Smart Contract Interaction</span><span class="si">Soroban / Stellar</span><span class="si">DeFi Analytics</span><span class="si">On-Chain Data Parsing</span><span class="si">Phishing Detection</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.2s"><div class="sk-card__title"><span class="sk-dot"></span>Security</div><div class="sk-items"><span class="si">Smart Contract Auditing</span><span class="si">Code4rena</span><span class="si">Flash Loan Analysis</span><span class="si">Oracle Safety</span><span class="si">Manual Code Review</span><span class="si">CSRF</span><span class="si">Auth Systems</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.25s"><div class="sk-card__title"><span class="sk-dot"></span>Data & Visualisation</div><div class="sk-items"><span class="si">Matplotlib</span><span class="si">Seaborn</span><span class="si">Plotly</span><span class="si">Power BI</span><span class="si">Canvas API</span><span class="si">Feature Engineering</span><span class="si">EDA</span></div></div>
+      <div class="sk-card sk-card--wide reveal" style="transition-delay:.3s"><div class="sk-card__title"><span class="sk-dot"></span>APIs & Integrations</div><div class="sk-items"><span class="si">Google Safe Browsing API</span><span class="si">Paystack API</span><span class="si">MetaMask Phishing Detector</span><span class="si">SMTP / Mailtrap</span><span class="si">openpyxl</span><span class="si">NLTK</span><span class="si">OpenCV</span><span class="si">Twitter API</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.35s"><div class="sk-card__title"><span class="sk-dot"></span>DevOps & Deploy</div><div class="sk-items"><span class="si">cPanel / Passenger WSGI</span><span class="si">Docker</span><span class="si">Railway</span><span class="si">Git / GitHub</span><span class="si">MySQL</span><span class="si">SQLite</span><span class="si">Jupyter Lab</span><span class="si">VS Code</span></div></div>
+      <div class="sk-card reveal" style="transition-delay:.4s"><div class="sk-card__title"><span class="sk-dot"></span>Frontend</div><div class="sk-items"><span class="si">HTML / CSS</span><span class="si">JavaScript</span><span class="si">Django Templates</span><span class="si">Jinja2</span><span class="si">Canvas API</span><span class="si">Responsive Design</span></div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section class="section section--alt">
+  <div class="wrap">
+    <div class="sec-kicker">Certifications</div>
+    <h2 class="sec-h2">Professional Credentials</h2>
+    <p class="sec-sub">11 professional certifications spanning AI, data analytics, cloud architecture, project management, and programming.</p>
+    <div class="certs__grid">
+      {% for cert in certificates %}
+      <div class="cert-card reveal" style="transition-delay:{{ forloop.counter0 }}0ms">
+        <div class="cert-dot"></div>
+        <div>
+          <div class="cert__nm">{{ cert.name }}</div>
+          <div class="cert__meta">{{ cert.issuer }} &nbsp;·&nbsp; {{ cert.date }}</div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="cert-card reveal" style="transition-delay:0ms"><div class="cert-dot"></div><div><div class="cert__nm">Diploma in AI Fundamentals</div><div class="cert__meta">Alison &nbsp;·&nbsp; Oct 2025</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:40ms"><div class="cert-dot"></div><div><div class="cert__nm">Diploma in Legal Studies</div><div class="cert__meta">Alison &nbsp;·&nbsp; Sep 2025</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:80ms"><div class="cert-dot"></div><div><div class="cert__nm">Certified Associate in Project Management</div><div class="cert__meta">Alison &nbsp;·&nbsp; May 2025</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:120ms"><div class="cert-dot"></div><div><div class="cert__nm">Data Analysis using Microsoft Excel</div><div class="cert__meta">Alison &nbsp;·&nbsp; May 2025</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:160ms"><div class="cert-dot"></div><div><div class="cert__nm">Diploma in C# Programming</div><div class="cert__meta">Alison &nbsp;·&nbsp; Sep 2023</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:200ms"><div class="cert-dot"></div><div><div class="cert__nm">Power Automate for Beginners</div><div class="cert__meta">Alison &nbsp;·&nbsp; Aug 2023</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:240ms"><div class="cert-dot"></div><div><div class="cert__nm">Certificate in Data Analytics</div><div class="cert__meta">NIIT &nbsp;·&nbsp; Apr 2023</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:280ms"><div class="cert-dot"></div><div><div class="cert__nm">How to Become a Cloud Architect</div><div class="cert__meta">Alison &nbsp;·&nbsp; Jan 2023</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:320ms"><div class="cert-dot"></div><div><div class="cert__nm">Data, Databases and Mining</div><div class="cert__meta">Alison &nbsp;·&nbsp; Dec 2022</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:360ms"><div class="cert-dot"></div><div><div class="cert__nm">Intro to Data Analytics with Python</div><div class="cert__meta">Alison &nbsp;·&nbsp; Aug 2022</div></div></div>
+      <div class="cert-card reveal" style="transition-delay:400ms"><div class="cert-dot"></div><div><div class="cert__nm">Introduction to R Programming</div><div class="cert__meta">Alison &nbsp;·&nbsp; Aug 2022</div></div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIATORS -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-kicker">Why Work With Me</div>
+    <h2 class="sec-h2">What Sets Me Apart</h2>
+    <p class="sec-sub">Beyond technical skills — the mindset and problem-solving philosophy that high-performing teams need.</p>
+    <div class="diff__img-wrap reveal" style="margin-top:2.5rem">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80" alt="Team collaboration"/>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-card reveal"><div class="diff-card__icon">🔬</div><div class="diff-card__title">Strong Analytical Mindset</div><div class="diff-card__desc">I break down ambiguous problems into structured, data-driven frameworks — then act on them decisively.</div></div>
+      <div class="diff-card reveal" style="transition-delay:.07s"><div class="diff-card__icon">🚀</div><div class="diff-card__title">End-to-End Execution</div><div class="diff-card__desc">From raw data ingestion to deployed systems and reporting — I own the full project lifecycle independently.</div></div>
+      <div class="diff-card reveal" style="transition-delay:.14s"><div class="diff-card__icon">📚</div><div class="diff-card__title">Research-Driven Approach</div><div class="diff-card__desc">I don't guess — I experiment. Every solution is grounded in evidence, literature, and iterative validation.</div></div>
+      <div class="diff-card reveal" style="transition-delay:.21s"><div class="diff-card__icon">💰</div><div class="diff-card__title">Business Impact Focus</div><div class="diff-card__desc">I measure success not just by model accuracy, but by the real-world decisions and value my solutions enable.</div></div>
+      <div class="diff-card reveal" style="transition-delay:.28s"><div class="diff-card__icon">🌍</div><div class="diff-card__title">Cultural Intelligence</div><div class="diff-card__desc">AI that understands Nigerian culture, pidgin, Yoruba diacritics, and local context. Not generic solutions.</div></div>
+      <div class="diff-card reveal" style="transition-delay:.35s"><div class="diff-card__icon">⚡</div><div class="diff-card__title">Competitive Sharpness</div><div class="diff-card__desc">National hackathons, Code4rena audits — I test myself against the best and ship under real pressure.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-kicker">Contact</div>
+    <h2 class="sec-h2">Let's Build Something Intelligent Together</h2>
+    <p class="sec-sub">Whether you're hiring, researching, or building — I'm open to Data Science, AI Engineering, Machine Learning, Web3, and research opportunities.</p>
+    <div class="contact__grid">
+      <div>
+        <a href="mailto:berachaiah.abolaji@gmail.com" class="cc"><div class="cc__icon">✉️</div><div><div class="cc__lbl">Email</div><div class="cc__val">berachaiah.abolaji@gmail.com</div></div></a>
+        <a href="https://github.com/Berachaiah" target="_blank" rel="noopener" class="cc"><div class="cc__icon">🐙</div><div><div class="cc__lbl">GitHub</div><div class="cc__val">github.com/Berachaiah</div></div></a>
+        <a href="https://berachaiahportfolio.netlify.app/" target="_blank" rel="noopener" class="cc"><div class="cc__icon">🌐</div><div><div class="cc__lbl">Live Portfolio</div><div class="cc__val">berachaiahportfolio.netlify.app</div></div></a>
+        <a href="tel:+2347062762415" class="cc"><div class="cc__icon">📱</div><div><div class="cc__lbl">Phone</div><div class="cc__val">+234 706 276 2415</div></div></a>
+      </div>
+      <div>
+        <div class="form-stag">Send a Message</div>
+        <div class="form-ok" id="formOk">✓ Message sent — Berachaiah will be in touch soon.</div>
+        <form id="contactForm">
+          {% csrf_token %}
+          <div class="fg"><label class="flbl">Your name</label><input class="ff" type="text" name="name" placeholder="Jane Smith" required/></div>
+          <div class="fg"><label class="flbl">Your email</label><input class="ff" type="email" name="email" placeholder="jane@company.com" required/></div>
+          <div class="fg"><label class="flbl">Type of engagement</label>
+            <select class="ff" name="type">
+              <option value="">Select…</option>
+              <option>Freelance / Contract</option>
+              <option>Full-time role</option>
+              <option>Research collaboration</option>
+              <option>Hackathon / Competition</option>
+              <option>Security Audit Collaboration</option>
+              <option>Just saying hi</option>
+            </select>
+          </div>
+          <div class="fg"><label class="flbl">Message</label><textarea class="ff" name="message" rows="4" placeholder="Tell me about your project or role…" required></textarea></div>
+          <button type="submit" class="submit-btn" id="formBtn">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Berachaiah Abolaji &nbsp;·&nbsp; berachaiah.abolaji@gmail.com</p>
+  <div class="footer__links">
+    <a href="mailto:berachaiah.abolaji@gmail.com">Email</a>
+    <a href="https://github.com/Berachaiah" target="_blank" rel="noopener">GitHub</a>
+    <a href="/admin-panel/login/" style="opacity:.4">Admin</a>
+  </div>
+</footer>
+
+<!-- AI CHAT BUBBLE -->
+<div class="ai-bubble" id="aiBubble">
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-panel-top">
+      <div class="ai-panel-info">
+        <div class="ai-avatar"><img src="/static/ai-icon.png" alt="The Best AI" onerror="this.style.display='none'"/></div>
+        <div>
+          <div class="ai-name">The Best AI ✦</div>
+          <div class="ai-status"><span class="ai-status-dot"></span>Online — Ask me anything</div>
+        </div>
+      </div>
+      <button class="ai-close" id="aiClose">✕</button>
+    </div>
+    <div class="ai-msgs" id="aiMsgs">
+      <div class="ai-msg ai-msg--bot">
+        <div class="ai-msg-bub">Hey! I am The Best AI — I know everything about Berachaiah. Ask me about his projects, skills, or why you should hire him 👀</div>
+      </div>
+    </div>
+    <div class="ai-pills" id="aiPills">
+      <button class="ai-pill" onclick="aiAsk('Why should I hire Berachaiah?')">#why hire?</button>
+      <button class="ai-pill" onclick="aiAsk('What are his best projects?')">#top projects</button>
+      <button class="ai-pill" onclick="aiAsk('What is his ML experience?')">#ML skills</button>
+      <button class="ai-pill" onclick="aiAsk('Is he available for work?')">#availability</button>
+    </div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="aiInput" type="text" placeholder="Ask about Berachaiah…" autocomplete="off"/>
+      <button class="ai-send" id="aiSend">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="ai-powered">Powered by Groq · Llama 3.3 · The Best AI</div>
+  </div>
+  <button class="ai-toggle" id="aiToggle" aria-label="Chat with The Best AI">
+    <div class="ai-toggle-inner">
+      <img src="/static/ai-icon.png" alt="The Best AI" onerror="this.style.fontSize='1.6rem';this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🤖'}))"/>
+    </div>
+    <span class="ai-ping"></span>
+  </button>
+</div>
+
+<script>
+// ── CURSOR GLOW ──────────────────────────────────────────────────
+const glow = document.getElementById('cursorGlow');
+if(glow){
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  }, {passive: true});
+}
+
+// ── NAV ──────────────────────────────────────────────────────────
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  navEl.classList.toggle('scrolled', window.scrollY > 30);
+  updateParallax();
+}, {passive: true});
+
+// ── CAROUSEL ─────────────────────────────────────────────────────
+(function(){
+  const slides = document.getElementById('carouselSlides');
+  const dotsWrap = document.getElementById('carDots');
+  if(!slides) return;
+  const count = slides.children.length;
+  if(count <= 1) return;
+  let cur = 0, timer;
+  for(let i = 0; i < count; i++){
+    const d = document.createElement('button');
+    d.className = 'carousel__dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => go(i);
+    dotsWrap.appendChild(d);
+  }
+  function go(n){
+    cur = (n + count) % count;
+    slides.style.transform = `translateX(-${cur * 100}%)`;
+    dotsWrap.querySelectorAll('.carousel__dot').forEach((d,i) => d.classList.toggle('active', i === cur));
+    resetTimer();
+  }
+  function resetTimer(){ clearInterval(timer); timer = setInterval(() => go(cur + 1), 4500); }
+  document.getElementById('carPrev').onclick = () => go(cur - 1);
+  document.getElementById('carNext').onclick = () => go(cur + 1);
+  resetTimer();
+})();
+
+// ── CONTACT FORM ─────────────────────────────────────────────────
+document.getElementById('contactForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('formBtn');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  const data = new FormData(e.target);
+  try {
+    const r = await fetch('/contact/', {
+      method: 'POST',
+      body: new URLSearchParams(data),
+      headers: {'X-CSRFToken': data.get('csrfmiddlewaretoken')}
+    });
+    if(r.ok){ e.target.style.display = 'none'; document.getElementById('formOk').classList.add('show'); }
+    else throw new Error();
+  } catch {
+    alert('Error — email berachaiah.abolaji@gmail.com directly.');
+    btn.textContent = 'Send Message →'; btn.disabled = false;
+  }
+});
+
+// ── REVEAL — staggered with IntersectionObserver ─────────────────
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      // Find siblings in same parent to stagger
+      const parent = e.target.parentElement;
+      const allReveal = Array.from(parent.querySelectorAll(
+        '.reveal,.reveal-l,.reveal-r,.reveal-scale,.reveal-blur'
+      )).filter(el => !el.classList.contains('in'));
+      const idx = allReveal.indexOf(e.target);
+      // Extra delay based on position in group
+      const extra = idx >= 0 ? idx * 100 : 0;
+      setTimeout(() => e.target.classList.add('in'), extra);
+      revealObs.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.1, rootMargin: '0px 0px -60px 0px'});
+
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.reveal-scale,.reveal-blur').forEach(el => {
+  revealObs.observe(el);
+});
+
+// ── PARALLAX ─────────────────────────────────────────────────────
+const parallaxImgs = document.querySelectorAll('.diff__img-wrap img, .research__img img');
+function updateParallax(){
+  const sy = window.scrollY;
+  parallaxImgs.forEach(img => {
+    const rect = img.closest('div').getBoundingClientRect();
+    if(rect.top < window.innerHeight && rect.bottom > 0){
+      const ratio = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      img.style.transform = `translateY(${(ratio - 0.5) * 30}px) scale(1.06)`;
+    }
+  });
+}
+
+// ── COUNTER ANIMATION ────────────────────────────────────────────
+function animateCount(el, target, prefix, suffix){
+  const dur = 1600;
+  const start = performance.now();
+  const isFloat = String(target).includes('.');
+  function tick(now){
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 4);
+    const val = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    el.textContent = prefix + val + suffix;
+    if(p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const statsObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.stat__num').forEach(n => {
+        const txt = n.textContent.trim();
+        const prefix = txt.startsWith('₦') ? '₦' : '';
+        const suffix = txt.endsWith('+') ? '+' : '';
+        const raw = parseFloat(txt.replace(/[^0-9.]/g, ''));
+        if(!isNaN(raw)) animateCount(n, raw, prefix, suffix);
+      });
+      statsObs.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.5});
+const sb = document.querySelector('.stats-band');
+if(sb) statsObs.observe(sb);
+
+// ── SECTION PROGRESS LINE ────────────────────────────────────────
+const progressBar = document.createElement('div');
+progressBar.style.cssText = 'position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#6c63ff,#38bdf8);z-index:9999;transition:width .1s;pointer-events:none;';
+document.body.appendChild(progressBar);
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (window.scrollY / h * 100) + '%';
+}, {passive: true});
+
+// ── MAGNETIC BUTTONS ─────────────────────────────────────────────
+document.querySelectorAll('.btn-glow,.btn-glass,.nav__cta').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const r = btn.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width / 2) * 0.25;
+    const y = (e.clientY - r.top - r.height / 2) * 0.25;
+    btn.style.transform = `translate(${x}px,${y}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+// ── AI CHAT ──────────────────────────────────────────────────────
+const aiPanel  = document.getElementById('aiPanel');
+const aiToggle = document.getElementById('aiToggle');
+const aiClose  = document.getElementById('aiClose');
+const aiMsgs   = document.getElementById('aiMsgs');
+const aiInput  = document.getElementById('aiInput');
+const aiSend   = document.getElementById('aiSend');
+const aiPills  = document.getElementById('aiPills');
+let aiHistory  = [];
+
+if(aiToggle){
+  aiToggle.onclick = () => toggleAI(true);
+  aiClose.onclick  = () => toggleAI(false);
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if(aiPanel && aiPanel.classList.contains('open') &&
+       !aiPanel.contains(e.target) && !aiToggle.contains(e.target)){
+      toggleAI(false);
+    }
+  });
+}
+function toggleAI(open){
+  aiPanel.classList.toggle('open', open);
+  if(open) setTimeout(() => aiInput && aiInput.focus(), 380);
+}
+
+function aiAddMsg(text, isUser){
+  // Hide pills once user sends first message
+  if(isUser && aiPills) aiPills.style.display = 'none';
+  const wrap = document.createElement('div');
+  wrap.className = 'ai-msg ' + (isUser ? 'ai-msg--user' : 'ai-msg--bot');
+  const bub = document.createElement('div');
+  bub.className = 'ai-msg-bub';
+  bub.textContent = text;
+  // Animate in
+  bub.style.opacity = '0';
+  bub.style.transform = isUser ? 'translateX(10px)' : 'translateX(-10px)';
+  wrap.appendChild(bub);
+  aiMsgs.appendChild(wrap);
+  requestAnimationFrame(() => {
+    bub.style.transition = 'opacity .3s ease, transform .3s ease';
+    bub.style.opacity = '1';
+    bub.style.transform = 'translateX(0)';
+  });
+  aiMsgs.scrollTop = aiMsgs.scrollHeight;
+}
+function aiShowTyping(){
+  const wrap = document.createElement('div');
+  wrap.className = 'ai-msg ai-msg--bot';
+  wrap.id = 'aiTyping';
+  wrap.innerHTML = '<div class="ai-msg-bub"><div class="ai-typing"><span></span><span></span><span></span></div></div>';
+  aiMsgs.appendChild(wrap);
+  aiMsgs.scrollTop = aiMsgs.scrollHeight;
+}
+async function aiAsk(prefill){
+  const msg = (prefill || (aiInput && aiInput.value) || '').trim();
+  if(!msg) return;
+  if(aiInput) aiInput.value = '';
+  aiAddMsg(msg, true);
+  aiHistory.push({role: 'user', content: msg});
+  aiShowTyping();
+  if(aiSend) aiSend.disabled = true;
+
+  const endpoint = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')
+    ? '/api/chat/'
+    : '/.netlify/functions/chat';
+
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: msg, history: aiHistory.slice(-8)})
+    });
+    const data = await res.json();
+    const reply = data.reply || 'Reach Berachaiah at berachaiah.abolaji@gmail.com!';
+    document.getElementById('aiTyping')?.remove();
+    aiAddMsg(reply, false);
+    aiHistory.push({role: 'assistant', content: reply});
+  } catch {
+    document.getElementById('aiTyping')?.remove();
+    aiAddMsg('AI is offline right now — email berachaiah.abolaji@gmail.com!', false);
+  }
+  if(aiSend) aiSend.disabled = false;
+}
+if(aiSend)  aiSend.onclick = () => aiAsk();
+if(aiInput) aiInput.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.shiftKey) aiAsk(); });
+</script>
+</body>
+</html>

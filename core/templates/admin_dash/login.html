@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>Admin Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#080b12;color:#f0f4ff;min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.box{background:#0e1420;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2.5rem;width:100%;max-width:380px;box-shadow:0 32px 80px rgba(0,0,0,.5);}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem;}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:#6c63ff;}
+.logo-text{font-weight:800;font-size:1rem;}
+h2{font-size:1.3rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.4rem;}
+p{font-size:.84rem;color:rgba(240,244,255,.5);margin-bottom:1.75rem;}
+label{display:block;font-size:.73rem;font-weight:600;color:rgba(240,244,255,.55);margin-bottom:5px;letter-spacing:.04em;}
+input{width:100%;background:#131926;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;font-size:.9rem;color:#f0f4ff;font-family:inherit;outline:none;margin-bottom:1rem;}
+input:focus{border-color:rgba(108,99,255,.5);}
+input::placeholder{color:rgba(240,244,255,.25);}
+button{width:100%;background:#6c63ff;color:#fff;font-size:.88rem;font-weight:700;padding:11px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;transition:background .2s;margin-top:.25rem;}
+button:hover{background:#5b52e8;}
+.err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5;padding:.75rem 1rem;border-radius:8px;font-size:.84rem;margin-bottom:1rem;}
+</style></head><body>
+<div class="box">
+  <div class="logo"><span class="logo-dot"></span><span class="logo-text">Portfolio Admin</span></div>
+  <h2>Sign in</h2><p>Enter your staff credentials to access the dashboard.</p>
+  {% if messages %}{% for m in messages %}<div class="err">{{ m }}</div>{% endfor %}{% endif %}
+  <form method="post">{% csrf_token %}
+    <label>Username</label><input type="text" name="username" autofocus/>
+    <label>Password</label><input type="password" name="password"/>
+    <button>Sign In →</button>
+  </form>
+</div>
+</body></html>

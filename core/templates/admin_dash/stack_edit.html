@@ -1,0 +1,21 @@
+{% extends "admin_dash/base.html" %}
+{% block title %}Edit Stack{% endblock %}{% block page_title %}Edit Stack Category{% endblock %}{% block breadcrumb %}Tech Stack › Edit{% endblock %}
+{% block content %}
+<div style="max-width:600px">
+  <div class="card">
+    <div style="font-weight:700;font-size:.9rem;margin-bottom:1.5rem">Edit: {{ stack.title }}</div>
+    <form method="post">{% csrf_token %}
+      <div class="form-group"><label class="form-label">Category Title *</label><input class="form-input" type="text" name="title" value="{{ stack.title }}" required/></div>
+      <div class="form-group"><label class="form-label">Items (comma-separated) *</label><textarea class="form-input" name="items" rows="5" required>{{ stack.items }}</textarea><p style="font-size:.73rem;color:var(--muted);margin-top:5px">Each item becomes a pill tag on the portfolio. Separate with commas.</p></div>
+      <div class="form-group"><label class="form-label">Display Order</label><input class="form-input" type="number" name="order" value="{{ stack.order }}" min="0"/></div>
+      <div class="form-group check-row"><input type="checkbox" name="is_wide" id="wide" {% if stack.is_wide %}checked{% endif %}/><label for="wide" style="font-size:.84rem;color:var(--muted)">Wide card (spans 2 columns)</label></div>
+      <div class="form-group check-row"><input type="checkbox" name="is_active" id="act" {% if stack.is_active %}checked{% endif %}/><label for="act" style="font-size:.84rem;color:var(--muted)">Active (visible on portfolio)</label></div>
+      <div style="display:flex;gap:.75rem;margin-top:1.5rem">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'admin_stacks' %}" class="btn btn-ghost">Cancel</a>
+        <a href="{% url 'admin_stack_delete' stack.pk %}" class="btn btn-danger" onclick="return confirm('Delete this category?')" style="margin-left:auto">Delete</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

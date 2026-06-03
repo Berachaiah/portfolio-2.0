@@ -1,0 +1,36 @@
+{% extends "admin_dash/base.html" %}
+{% block title %}Tech Stack{% endblock %}{% block page_title %}Tech Stack{% endblock %}{% block breadcrumb %}Tech Stack{% endblock %}
+{% block content %}
+<div class="grid-2">
+  <div class="card">
+    <div style="font-weight:700;font-size:.9rem;margin-bottom:1.25rem">Add Stack Category</div>
+    <form method="post">{% csrf_token %}
+      <div class="form-group"><label class="form-label">Category Title *</label><input class="form-input" type="text" name="title" placeholder="e.g. AI / ML" required/></div>
+      <div class="form-group"><label class="form-label">Items (comma-separated) *</label><textarea class="form-input" name="items" rows="3" placeholder="Python, Scikit-Learn, XGBoost, FAISS" required></textarea></div>
+      <div class="form-group"><label class="form-label">Display Order</label><input class="form-input" type="number" name="order" value="0" min="0"/></div>
+      <div class="form-group check-row"><input type="checkbox" name="is_wide" id="wide"/><label for="wide" style="font-size:.84rem;color:var(--muted)">Wide card (spans 2 columns)</label></div>
+      <button type="submit" class="btn btn-primary">Add Category</button>
+    </form>
+  </div>
+  <div class="card card--flat">
+    <div style="padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);font-weight:700;font-size:.9rem">All Stack Categories ({{ stacks|length }})</div>
+    {% if stacks %}
+    <table class="table">
+      <thead><tr><th>#</th><th>Category</th><th>Items</th><th>Wide</th><th>Actions</th></tr></thead>
+      <tbody>{% for s in stacks %}
+      <tr>
+        <td style="color:var(--muted2)">{{ s.order }}</td>
+        <td style="font-weight:600">{{ s.title }}</td>
+        <td style="font-size:.78rem;color:var(--muted)">{{ s.items|truncatechars:45 }}</td>
+        <td>{% if s.is_wide %}<span class="badge badge--blue">Wide</span>{% else %}—{% endif %}</td>
+        <td style="display:flex;gap:6px">
+          <a href="{% url 'admin_stack_edit' s.pk %}" class="btn btn-ghost">Edit</a>
+          <a href="{% url 'admin_stack_delete' s.pk %}" class="btn btn-danger" onclick="return confirm('Delete {{ s.title }}?')">Delete</a>
+        </td>
+      </tr>{% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty-state"><div class="empty-state__icon">🛠️</div>No stack categories yet.</div>{% endif %}
+  </div>
+</div>
+{% endblock %}

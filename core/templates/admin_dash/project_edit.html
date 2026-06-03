@@ -1,0 +1,47 @@
+{% extends "admin_dash/base.html" %}
+{% block title %}{% if project %}Edit{% else %}New{% endif %} Project{% endblock %}
+{% block page_title %}{% if project %}Edit Project{% else %}New Project{% endif %}{% endblock %}
+{% block breadcrumb %}Projects &rsaquo; {% if project %}Edit{% else %}New{% endif %}{% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+  <div class="grid-2">
+    <div>
+      <div class="card" style="margin-bottom:1.25rem">
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:1.25rem">Project Details</div>
+        <div class="form-group"><label class="form-label">Title *</label><input class="form-input" type="text" name="title" value="{{ project.title|default:'' }}" required/></div>
+        <div class="form-group"><label class="form-label">Subtitle / Stack Line</label><input class="form-input" type="text" name="subtitle" value="{{ project.subtitle|default:'' }}" placeholder="Django 6 · PostgreSQL · Live"/></div>
+        <div class="form-group"><label class="form-label">Description *</label><textarea class="form-input" name="description" rows="5" required>{{ project.description|default:'' }}</textarea></div>
+        <div class="form-group"><label class="form-label">Badge Tag</label><input class="form-input" type="text" name="tag" value="{{ project.tag|default:'' }}" placeholder="e.g. Hackathon · ₦4M Prize Pool"/></div>
+        <div class="form-group"><label class="form-label">Stack Tags (comma-separated)</label><input class="form-input" type="text" name="stack_tags" value="{{ project.stack_tags|default:'' }}" placeholder="Django 6, FAISS, Alchemy API"/></div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:1.25rem">
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:1.25rem">Settings</div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-input" name="status">
+            <option value="completed" {% if project.status == 'completed' %}selected{% endif %}>Completed</option>
+            <option value="live" {% if project.status == 'live' %}selected{% endif %}>Live</option>
+            <option value="active" {% if project.status == 'active' %}selected{% endif %}>Active Development</option>
+            <option value="hackathon" {% if project.status == 'hackathon' %}selected{% endif %}>Hackathon</option>
+            <option value="audit" {% if project.status == 'audit' %}selected{% endif %}>Security Audit</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Display Order</label><input class="form-input" type="number" name="order" value="{{ project.order|default:0 }}" min="0"/></div>
+        <div class="form-group check-row"><input type="checkbox" name="is_featured" id="feat" {% if project.is_featured %}checked{% endif %}/><label for="feat" style="font-size:.84rem;color:var(--muted)">Featured project (spans full width)</label></div>
+        <div class="form-group check-row"><input type="checkbox" name="is_active" id="act" {% if project.is_active or not project %}checked{% endif %}/><label for="act" style="font-size:.84rem;color:var(--muted)">Active (visible on portfolio)</label></div>
+      </div>
+      <div class="card">
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:1.25rem">Project Image</div>
+        {% if project.image %}<img src="{{ project.image.url }}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;border:1px solid var(--border);margin-bottom:1rem;"/>{% endif %}
+        <div class="form-group"><input class="form-input" type="file" name="image" accept="image/*"/></div>
+        <p style="font-size:.76rem;color:var(--muted)">Recommended: 16:9 ratio, at least 800×450px.</p>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:1.25rem;display:flex;gap:.75rem">
+    <button type="submit" class="btn btn-primary">{% if project %}Save Changes{% else %}Create Project{% endif %}</button>
+    <a href="{% url 'admin_projects' %}" class="btn btn-ghost">Cancel</a>
+  </div>
+</form>
+{% endblock %}

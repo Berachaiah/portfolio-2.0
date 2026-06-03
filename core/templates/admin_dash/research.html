@@ -1,0 +1,34 @@
+{% extends "admin_dash/base.html" %}
+{% block title %}Research{% endblock %}{% block page_title %}Research Items{% endblock %}{% block breadcrumb %}Research{% endblock %}
+{% block content %}
+<div class="grid-2">
+  <div class="card">
+    <div style="font-weight:700;font-size:.9rem;margin-bottom:1.25rem">Add Research Item</div>
+    <form method="post">{% csrf_token %}
+      <div class="form-group"><label class="form-label">Number</label><input class="form-input" type="number" name="number" value="1" min="1"/></div>
+      <div class="form-group"><label class="form-label">Title *</label><input class="form-input" type="text" name="title" placeholder="🧠 Early Alzheimer's Detection via MRI" required/></div>
+      <div class="form-group"><label class="form-label">Description *</label><textarea class="form-input" name="description" rows="4" required></textarea></div>
+      <button type="submit" class="btn btn-primary">Add Item</button>
+    </form>
+  </div>
+  <div class="card card--flat">
+    <div style="padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);font-weight:700;font-size:.9rem">All Research Items ({{ items|length }})</div>
+    {% if items %}
+    <table class="table">
+      <thead><tr><th>#</th><th>Title</th><th>Description</th><th>Actions</th></tr></thead>
+      <tbody>{% for item in items %}
+      <tr>
+        <td><span class="badge badge--blue">{{ item.number }}</span></td>
+        <td style="font-weight:500">{{ item.title|truncatechars:36 }}</td>
+        <td style="font-size:.78rem;color:var(--muted)">{{ item.description|truncatechars:50 }}</td>
+        <td style="display:flex;gap:6px">
+          <a href="{% url 'admin_research_edit' item.pk %}" class="btn btn-ghost">Edit</a>
+          <a href="{% url 'admin_research_delete' item.pk %}" class="btn btn-danger" onclick="return confirm('Delete?')">Delete</a>
+        </td>
+      </tr>{% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty-state"><div class="empty-state__icon">🔬</div>No research items yet.</div>{% endif %}
+  </div>
+</div>
+{% endblock %}
