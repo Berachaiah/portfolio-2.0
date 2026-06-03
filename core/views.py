@@ -302,9 +302,7 @@ def ai_chat(request):
     except Exception:
         return JsonResponse({'reply': 'Invalid request.'}, status=400)
 
-    groq_key = os.environ.get('GROQ_API_KEY', '')
-    print(f"DEBUG key: {repr(groq_key[:20])}")
-    print(f"DEBUG message: {repr(message)}")
+    groq_key = getattr(django_settings, 'GROQ_API_KEY', '')
     if not groq_key:
         return JsonResponse({'reply': 'AI not configured yet — email berachaiah.abolaji@gmail.com!'})
 
@@ -342,6 +340,4 @@ Open to freelance, contracts, full-time roles. Contact: berachaiah.abolaji@gmail
             reply = data['choices'][0]['message']['content']
             return JsonResponse({'reply': reply})
     except Exception as e:
-        print(f"DEBUG GROQ ERROR: {repr(e)}")
-        import traceback; traceback.print_exc()
         return JsonResponse({'reply': 'AI is temporarily offline — email berachaiah.abolaji@gmail.com!'})
